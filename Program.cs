@@ -95,7 +95,6 @@ namespace series_dotnet
 
             Console.WriteLine($"Você tem certeza que deseja atualizar a série de #ID {indiceSerie}? Sim ou não (Y/N)");
             if (ConfirmarEscolha()){repositorio.Atualiza(indiceSerie, GerarSerieComParametros(indiceSerie));}
-			//repositorio.Atualiza(indiceSerie, GerarSerieComParametros(indiceSerie));
 		}
         private static void ListarSeries()
 		{
