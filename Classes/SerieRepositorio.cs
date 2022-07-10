@@ -28,6 +28,11 @@ namespace series_dotnet
             listaSerie[id].Excluir();
         }
 
+        public void Reinclui(int id)
+        {
+            listaSerie[id].Reincluir();
+        }
+
         public void Atualiza(int id, Serie objeto)
         {
             listaSerie[id] = objeto;

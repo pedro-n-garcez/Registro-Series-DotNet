@@ -29,6 +29,10 @@ namespace series_dotnet
             return retorno;
         }
 
+        public int retornaGenero(){return (int)this.genero;}
+        public string retornaDescricao(){return this.descricao;}
+        public int retornaAno(){return this.ano;}
+
         public string retornaTitulo()
         {
             return this.titulo;
@@ -42,6 +46,11 @@ namespace series_dotnet
         public void Excluir() 
         {
             this.excluido = true;
+        }
+
+        public void Reincluir() 
+        {
+            this.excluido = false;
         }
 
         public bool retornaExcluido()

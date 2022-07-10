@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace series_dotnet
 {
@@ -13,22 +14,40 @@ namespace series_dotnet
                 switch (opcaoUsuario.Key)
 				{
 					case ConsoleKey.D1:
+						Console.Clear();
 						ListarSeries();
 						break;
 					case ConsoleKey.D2:
+						Console.Clear();
 						InserirSerie();
+						Console.Clear();
 						break;
 					case ConsoleKey.D3:
+						Console.Clear();
 						AtualizarSerie();
+						Console.Clear();
 						break;
 					case ConsoleKey.D4:
+						Console.Clear();
 						ExcluirSerie();
+						Console.Clear();
 						break;
 					case ConsoleKey.D5:
+						Console.Clear();
+						ReincluirSerie();
+						Console.Clear();
+						break;
+					case ConsoleKey.D6:
+						Console.Clear();
 						VisualizarSerie();
 						break;
-					case ConsoleKey.C:
+					case ConsoleKey.D7:
 						Console.Clear();
+						SalvarLista();
+						break;
+					case ConsoleKey.D8:
+						Console.Clear();
+						AbrirLista();
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
@@ -39,6 +58,39 @@ namespace series_dotnet
             Console.WriteLine("Pressione qualquer tecla para sair.");
 			Console.ReadKey();
         }
+
+		private static void SalvarLista()
+		{
+			Console.Write("Forneça um nome para a sua lista (sem a extensão .csv): ");
+			string nomeArquivo = Console.ReadLine() + ".csv";
+			if (File.Exists(nomeArquivo))
+			{
+				Console.WriteLine("Já existe um lista com esse nome. Você deseja sobreescrevê-la? Sim ou não (Y/N)");
+				if (ConfirmarEscolha())
+				{
+					Csv csv = new Csv();
+					csv.ExportarArquivo(repositorio,nomeArquivo);
+				}
+			}
+			else
+			{
+				Csv csv = new Csv();
+				csv.ExportarArquivo(repositorio,nomeArquivo);
+			}
+		}
+
+		private static void AbrirLista()
+		{
+			Console.Write("Informe o nome da lista (sem a extensão .csv): ");
+			string nomeArquivo = Console.ReadLine() + ".csv";
+			Console.WriteLine($"Você tem certeza que deseja abrir essa lista? Sua lista atual será apagada. Sim ou não (Y/N)");
+            if (ConfirmarEscolha())
+			{
+				Csv csv = new Csv();
+				csv.ImportarArquivo(nomeArquivo, repositorio);
+			}
+		}
+
         private static void ExcluirSerie()
 		{
 			Console.Write("Digite o id da série: ");
@@ -46,6 +98,15 @@ namespace series_dotnet
 
             Console.WriteLine($"Você tem certeza que deseja excluir a série de #ID {indiceSerie}? Sim ou não (Y/N)");
             if (ConfirmarEscolha()){repositorio.Exclui(indiceSerie);}
+		}
+
+		private static void ReincluirSerie()
+		{
+			Console.Write("Digite o id da série: ");
+			int indiceSerie = Int32.Parse(Console.ReadLine());
+
+			Console.WriteLine($"Você tem certeza que deseja reincluir a série de #ID {indiceSerie}? Sim ou não (Y/N)");
+			if (ConfirmarEscolha()){repositorio.Reinclui(indiceSerie);}
 		}
 
         private static void VisualizarSerie()
@@ -131,8 +192,10 @@ namespace series_dotnet
 			Console.WriteLine("2 - Inserir nova série");
 			Console.WriteLine("3 - Atualizar série");
 			Console.WriteLine("4 - Excluir série");
-			Console.WriteLine("5 - Visualizar série");
-			Console.WriteLine("C - Limpar Tela");
+			Console.WriteLine("5 - Reincluir série");
+			Console.WriteLine("6 - Visualizar série");
+			Console.WriteLine("7 - Salvar lista");
+			Console.WriteLine("8 - Abrir lista existente");
 			Console.WriteLine("X - Sair");
 			Console.WriteLine();
 
